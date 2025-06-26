@@ -5,18 +5,12 @@ import java.util.Scanner;
 public class FixedDepositAccount extends Account{
         Scanner input = new Scanner(System.in);
 
-        private  int accountNumber;
-        private String accountHolder;
+        private final int accountNumber;
+        private final String accountHolder;
         private int passWord;
         int installment = 0;
         int initialBalance;
         private float lastDeposit;
-
-        public FixedDepositAccount(int accountNumber, String accountHolder, int passWord) {
-            this.accountNumber = accountNumber;
-            this.accountHolder = accountHolder;
-            this.passWord = passWord;
-        }
 
         public FixedDepositAccount(int accountNumber, String accountHolder, float initialBalance, int passWord) {
             this.accountNumber = accountNumber;
@@ -85,7 +79,7 @@ public class FixedDepositAccount extends Account{
                     if (amount > currentBalance) System.out.println("Insufficient Balance.");
                     else {
                         currentBalance -= amount;
-                        System.out.println("Withdrawal Successfull.");
+                        System.out.println("Withdrawal Successfully.");
                     }
                 }
                 else System.out.println("Invalid Credentials");
@@ -97,7 +91,7 @@ public class FixedDepositAccount extends Account{
         }
 
     @Override
-    public float transferTo(Account another, int amount) {
+    public void transferTo(Account another, int amount) {
         if(installment>=5){
             if (amount > this.currentBalance) {
                 System.out.println("Amount exceeded balance.");
@@ -105,12 +99,10 @@ public class FixedDepositAccount extends Account{
                 this.currentBalance -= amount;
                 another.currentBalance += amount;
             }
-            return this.currentBalance;
         }
         else{
             System.out.println("Transfer not possible now");
         }
-        return 0;
     }
     public float getLastWithdrawal(){
         return 0.0f;

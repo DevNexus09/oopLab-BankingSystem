@@ -5,26 +5,17 @@ import java.util.Scanner;
 public class CurrentAccount extends Account{
     Scanner input = new Scanner(System.in);
 
-    private  int accountNumber;
-    private String accountHolder;
+    private final int accountNumber;
+    private final String accountHolder;
     private int passWord;
     private float lastDeposit;
     private float lastWithdraw;
-    private float minBalance;
-
-    public CurrentAccount(int accountNumber, String accountHolder, int passWord) {
-        this.accountNumber = accountNumber;
-        this.accountHolder = accountHolder;
-        this.passWord = passWord;
-        minBalance = 0.0f;
-    }
 
     public CurrentAccount(int accountNumber, String accountHolder, float initialBalance, int passWord) {
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
         this.currentBalance = initialBalance;
         this.passWord = passWord;
-        minBalance = 0.0f;
     }
 
 
@@ -82,7 +73,7 @@ public class CurrentAccount extends Account{
             else {
                 currentBalance -= amount;
                 lastWithdraw = amount;
-                System.out.println("Withdrawal Successfull.");
+                System.out.println("Successfully Withdraw.");
             }
         }
         else System.out.println("Invalid Credentials");
@@ -95,13 +86,12 @@ public class CurrentAccount extends Account{
     public float getLastWithdrawal(){
         return lastWithdraw;
     }
-    public float transferTo(Account another, int amount) {
+    public void transferTo(Account another, int amount) {
         if (amount > this.currentBalance) {
             System.out.println("Amount exceeded balance.");
         } else {
             this.currentBalance -= amount;
             another.currentBalance += amount;
         }
-        return this.currentBalance;
     }
 }

@@ -1,7 +1,5 @@
 package Bank;
 
-import java.util.Scanner;
-
 public abstract class Account {
 
     protected float currentBalance;
@@ -12,7 +10,7 @@ public abstract class Account {
 
     public abstract void withdraw();
 
-    public abstract float transferTo(Account another, int amount);
+    public abstract void transferTo(Account another, int amount);
 
     public abstract float getCurrentBalance();
     public abstract int getAccountNumber();
