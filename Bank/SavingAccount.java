@@ -1,9 +1,11 @@
 package Bank;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class SavingAccount extends Account{
-        Scanner input = new Scanner(System.in);
+public class SavingAccount extends Account implements Serializable {
+       private transient Scanner input = new Scanner(System.in);
 
         private final int accountNumber;
         private final String accountHolder;
@@ -98,4 +100,9 @@ public class SavingAccount extends Account{
                 another.currentBalance += amount;
             }
         }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        input = new Scanner(System.in);
+    }
     }

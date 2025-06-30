@@ -1,6 +1,8 @@
 package Bank;
 
-public abstract class Account {
+import java.io.Serializable;
+
+public abstract class Account implements Serializable {
 
     protected float currentBalance;
 

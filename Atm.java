@@ -1,11 +1,15 @@
 import Bank.*;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Atm {
+    private static final String DATABASE_FILE = "Bank Database.txt" ;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        ArrayList<Account> accounts = new ArrayList<>();
+        ArrayList<Account> accounts = loadAccounts();
 
         Account currentAccount = null;
 
@@ -20,6 +24,7 @@ public class Atm {
 
             if (initialOption == 3) {
                 System.out.println("Thank You for using the ATM.");
+                saveAccounts(accounts);
                 break;
             }
 
@@ -77,6 +82,8 @@ public class Atm {
                             accounts.add(newAccount);
                             System.out.println("Account created successfully!");
                         }
+
+                        saveAccounts(accounts);
                     }
                     break;
 
@@ -94,11 +101,11 @@ public class Atm {
                     }
 
                     if (currentAccount != null) {
-                        System.out.println("Welcome " + currentAccount.getAccountHolder() + " to the Atm Booth");
+                        System.out.println("Welcome Mr." + currentAccount.getAccountHolder() + " to the Atm Booth");
                         while (true) {
                             System.out.println("\n1. Deposit");
                             System.out.println("2. Withdraw");
-                            System.out.println("3.Transfer Money");
+                            System.out.println("3. Transfer to other bank accounts");
                             System.out.println("4. Balance Inquiry");
                             System.out.println("5. Pin Change");
                             System.out.println("6. Mini Statement");
@@ -109,15 +116,18 @@ public class Atm {
 
                             if (option == 7) {
                                 System.out.println("Logging out from " + currentAccount.getAccountHolder());
+                                saveAccounts(accounts);
                                 currentAccount = null;
                                 break;
                             }
                             switch (option) {
                                 case 1:
                                     currentAccount.deposit();
+                                    saveAccounts(accounts);
                                     break;
                                 case 2:
                                     currentAccount.withdraw();
+                                    saveAccounts(accounts);
                                     break;
                                 case 3:
                                     System.out.print("Enter Destination Account Number: ");
@@ -145,6 +155,7 @@ public class Atm {
                                         System.out.println("Destination account not found.");
                                     }
                                     System.out.println();
+                                    saveAccounts(accounts);
                                     break;
                                 case 4:
                                     System.out.println("Current Balance: " + currentAccount.getCurrentBalance());
@@ -152,6 +163,7 @@ public class Atm {
                                     break;
                                 case 5:
                                     currentAccount.setPassword();
+                                    saveAccounts(accounts);
                                     break;
                                 case 6:
                                     System.out.println("Mini Statement");
@@ -175,5 +187,24 @@ public class Atm {
             }
         }
         input.close();
+    }
+    private static void saveAccounts(ArrayList<Account> accounts) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(DATABASE_FILE))) {
+            oos.writeObject(accounts);
+        } catch (IOException e) {
+            System.err.println("Error saving accounts: " + e.getMessage());
+        }
+    }
+
+    private static ArrayList<Account> loadAccounts() {
+        ArrayList<Account> accounts = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATABASE_FILE))) {
+            accounts = (ArrayList<Account>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("Welcome To new Bank Management System");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading accounts: " + e.getMessage());
+        }
+        return accounts;
     }
 }

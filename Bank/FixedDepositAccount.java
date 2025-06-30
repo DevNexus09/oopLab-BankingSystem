@@ -1,9 +1,11 @@
 package Bank;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class FixedDepositAccount extends Account{
-        Scanner input = new Scanner(System.in);
+public class FixedDepositAccount extends Account implements Serializable {
+        private transient Scanner input = new Scanner(System.in);
 
         private final int accountNumber;
         private final String accountHolder;
@@ -111,5 +113,10 @@ public class FixedDepositAccount extends Account{
     @Override
     public float getLastDeposit() {
         return lastDeposit;
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        input = new Scanner(System.in);
     }
 }
