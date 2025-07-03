@@ -1,6 +1,7 @@
 package Bank;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -10,9 +11,10 @@ public class FixedDepositAccount extends Account implements Serializable {
         private final int accountNumber;
         private final String accountHolder;
         private int passWord;
-        int installment = 0;
-        int initialBalance;
+        private int installment = 0;
+        private final int initialBalance;
         private float lastDeposit;
+        private int depositCount = 0;
 
         public FixedDepositAccount(int accountNumber, String accountHolder, float initialBalance, int passWord) {
             this.accountNumber = accountNumber;
@@ -59,10 +61,13 @@ public class FixedDepositAccount extends Account implements Serializable {
                 System.out.print("Enter Amount to Deposit: ");
                 int amount = input.nextInt();
                 currentBalance+=amount;
-                float interestAmount = (float) (currentBalance*0.07);
-                currentBalance+=interestAmount;
                 lastDeposit = amount;
                 installment+=amount;
+                depositCount++;
+                if(depositCount >= 12){
+                    float interestAmount = (float) (currentBalance*0.07);
+                    currentBalance+=interestAmount;
+                }
                 System.out.println("Successfully Deposited...");
             }
             else System.out.println("Invalid Credentials.");
@@ -115,6 +120,7 @@ public class FixedDepositAccount extends Account implements Serializable {
         return lastDeposit;
     }
 
+    @Serial
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         input = new Scanner(System.in);

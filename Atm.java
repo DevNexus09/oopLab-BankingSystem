@@ -9,6 +9,8 @@ public class Atm {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        System.out.println("Welcome to IIT Banking System");
+        System.out.println("Enter credentials to proceed");
         ArrayList<Account> accounts = loadAccounts();
 
         Account currentAccount = null;
@@ -195,7 +197,7 @@ public class Atm {
             System.err.println("Error saving accounts: " + e.getMessage());
         }
     }
-
+    @SuppressWarnings("unchecked")
     private static ArrayList<Account> loadAccounts() {
         ArrayList<Account> accounts = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(DATABASE_FILE))) {

@@ -1,6 +1,7 @@
 package Bank;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -97,6 +98,7 @@ public class CurrentAccount extends Account implements Serializable {
         }
     }
 
+    @Serial
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         input = new Scanner(System.in);
